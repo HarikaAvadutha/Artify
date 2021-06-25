@@ -7,6 +7,7 @@ import { Button } from '../buttons/buttons';
 const collectionID = `coll-${generateUUID()}`;
 const SERVER_ENDPOINT = 'http://localhost:5000/api/art/';
 
+let currentScreenCnt = 1;
 const CapturePics = ({ loadNextSection, formData }) => {
   const [currentStage, setCurrentStage] = useState('info');
   const [selectedFile, setSelectedFile] = useState(null);
@@ -27,74 +28,60 @@ const CapturePics = ({ loadNextSection, formData }) => {
     mainImage2: {
       title: 'Main Image (2)',
       caption: 'Take 2 steps to the right. This may reduce glare. Capture the entire work including the frame.',
-      isLast: false,
     },
     mainImage3: {
       title: 'Main Image (3)',
       caption: 'Take 4 steps to the left. This may reduce glare. Capture the entire work including the frame.',
-      isLast: false,
     },
     upperLeftQuadrant: {
       title: 'Upper Left Quadrant',
       caption: 'Align area in green rectangle.',
-      isLast: false,
     },
     upperRightQuadrant: {
       title: 'Upper Right Quadrant',
       caption: 'Align area in green rectangle.',
-      isLast: false,
     },
     lowerLeftQuadrant: {
       title: 'Lower Left Quadrant',
       caption: 'Align area in green rectangle.',
-      isLast: false,
     },
     lowerRightQuadrant: {
       title: 'Lower Right Quadrant',
       caption: 'Align area in green rectangle.',
-      isLast: false,
     },
     signatureCloseUp: {
       title: 'Close-up of the signature',
       caption: 'If the work is NOT signed press Not signed.',
-      isLast: false,
     },
     darkestArea: {
       title: 'Darkest Area',
       caption: 'Stay in focus.',
-      isLast: false,
     },
     lightestArea: {
       title: 'Lightest Area',
       caption: 'Stay in focus.',
-      isLast: false,
     },
     media: {
       title: 'Media',
       caption:
         'The way paint is applied to the surface tells us a lot about the artist and materials. Please take a close-up of the objects surface',
-      isLast: false,
     },
     surface: {
       title: 'Surface',
       caption: 'Take a close-up of the surface where the texture is coming through.',
-      isLast: false,
     },
     condition: {
       title: 'Condition',
       caption:
         'Condition usually helps us get a sense of the objects age. Please capture any potential abrasions cracking, etc.',
-      isLast: false,
     },
     additionalImages: {
       title: 'Additional Images',
       caption: 'Please take any additional photographs of the objects surface.',
-      isLast: false,
     },
     backFullPicture: {
       title: 'Full picture of paintings back',
       caption: 'Capture the entire work including the frame.',
-      isLast: false,
     },
     galleryStickers: {
       title: 'Gallery Stickers',
@@ -119,11 +106,11 @@ const CapturePics = ({ loadNextSection, formData }) => {
     //   ba[i] = bs.charCodeAt(i);
     // }
     // return new Blob([ba], { type: 'image/jpeg' });
-    var arr = base64String.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+    const arr = base64String.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
 
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n);
@@ -134,14 +121,17 @@ const CapturePics = ({ loadNextSection, formData }) => {
 
   const fileUpload = (imgSrc, type = 'live') => {
     console.log('type', type);
-    const selectedFile = type === 'upload' ? imgSrc : converBase64toFileObj(imgSrc);
-    console.log('selecredFile', selectedFile.files[0].size)
+    const finalFile = type === 'upload' ? selectedFile : converBase64toFileObj(imgSrc);
+    // if(type === 'upload') {
+    console.log('selecredFile', finalFile);
+    // }
     const payload = new FormData();
-    payload.append('ArtId', artId);
-    payload.append('CollectionId', collectionID);
-    payload.append('OriginalImage', selectedFile);
-    payload.append('ArtName', 'Test ArtName');
-    payload.append('Filelen', Math.round(type === 'upload' ? selectedFile.files[0].size / 1000 : selectedFile.size / 1000));
+    payload.append('artId', artId);
+    payload.append('collectionId', collectionID);
+    payload.append('artName', 'Test ArtName');
+    payload.append('artNotes', 'Test ArtName');
+    payload.append('filelen', Math.round(finalFile.size / 1000));
+    payload.append('originalImage', finalFile);
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
@@ -151,16 +141,9 @@ const CapturePics = ({ loadNextSection, formData }) => {
     return post(SERVER_ENDPOINT, payload, config);
   };
 
-
-
-  const handleFileInput = (file) => {
-    // handle validations
-    console.log('selectedFle', file)
+  const handleFileInput = file => {
     setSelectedFile(file);
-    // fileUpload(file, 'upload');
-    // onFileSelect(e.target.files[0])
-  }
-
+  };
 
   const handleNext = ({ imgSrc, type }) => {
     let nextObj;
@@ -176,22 +159,38 @@ const CapturePics = ({ loadNextSection, formData }) => {
     // }
     if (currentStage !== 'info') {
       console.log('formData', formData);
-      fileUpload(imgSrc, type).then(res => {
-        console.log('res', res);
-        setSelectedFile(null);
-        setSelectedType(null);
-        if (imageInputRef.current) imageInputRef.current.value = '';
-        nextObj = navObj(stages, currentStage, 1);
-        setCurrentStage(nextObj.key);
-      });
+      fileUpload(imgSrc, type)
+        .then(res => {
+          console.log('res', res);
+          setSelectedFile(null);
+          setSelectedType(null);
+          if (imageInputRef.current) imageInputRef.current.value = '';
+          nextObj = navObj(stages, currentStage, 1);
+          currentScreenCnt += 1;
+          if (!Object.values(nextObj).filter(Boolean).length) {
+            loadNextSection({
+              name: 'takePictures',
+            });
+          } else {
+            setCurrentStage(nextObj.key);
+          }
+        })
+        .catch(error => console.log('file upload error', error));
     }
     // else if (currentStage === 'mainImage2') {
     //   loadNextSection();
     // }
     else {
       nextObj = navObj(stages, currentStage, 1);
+      currentScreenCnt += 1;
       setCurrentStage(nextObj.key);
     }
+
+    // if (currentScreenCnt === stages.length + 1) {
+    //   loadNextSection({
+    //     name: 'takePictures',
+    //   });
+    // }
   };
 
   const handleBack = () => {
@@ -199,7 +198,7 @@ const CapturePics = ({ loadNextSection, formData }) => {
     setCurrentStage(backObj.key);
   };
 
-  const handleSelectedType = (selctedType) => {
+  const handleSelectedType = selctedType => {
     setSelectedType(selctedType);
     setSelectedFile(null);
     if (imageInputRef.current) imageInputRef.current.value = '';

@@ -19,6 +19,7 @@ const Button = props => {
     social,
     load,
     children,
+    disabled,
     ...rest
   } = props;
   const [state, setState] = useState({
@@ -45,6 +46,7 @@ const Button = props => {
       social={social}
       onClick={load && enterLoading}
       loading={state.loading}
+      disabled={disabled}
       {...rest}
     >
       {children}
@@ -71,7 +73,7 @@ Button.propTypes = {
     'dashed',
     'error',
     'default',
-    'button'
+    'button',
   ]),
   shape: PropTypes.string,
   icon: PropTypes.string,
@@ -85,6 +87,7 @@ Button.propTypes = {
   load: PropTypes.bool,
   ghost: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.node]),
+  disabled: PropTypes.bool,
 };
 
 const BtnGroup = ({ children }) => {

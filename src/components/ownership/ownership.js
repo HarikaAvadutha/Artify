@@ -7,6 +7,7 @@ import { Button } from '../buttons/buttons';
 const collectionID = `coll-${generateUUID()}`;
 const SERVER_ENDPOINT = 'http://localhost:5000/api/art/';
 
+let currentScreenCnt = 1;
 const Ownership = ({ loadNextSection, formData }) => {
   const [currentStage, setCurrentStage] = useState('purchase');
   const [selectedFile, setSelectedFile] = useState(null);
@@ -15,7 +16,7 @@ const Ownership = ({ loadNextSection, formData }) => {
 
   const stages = {
     purchase: {
-      title: 'Purchase Price',
+      title: 'Yuor Purchase Price',
     },
     provenance: {
       title: 'Provenance & Documents',
@@ -81,6 +82,13 @@ const Ownership = ({ loadNextSection, formData }) => {
 
   const handleNext = ({ imgSrc, type }) => {
     let nextObj;
+    currentScreenCnt += 1;
+    if (currentScreenCnt === (stages.length + 1)) {
+      loadNextSection({
+        name: 'artWorkInfo',
+        formData
+      });
+    }
     nextObj = navObj(stages, currentStage, 1);
     setCurrentStage(nextObj.key);
   };
@@ -103,15 +111,56 @@ const Ownership = ({ loadNextSection, formData }) => {
     if (imageInputRef.current) imageInputRef.current.value = '';
   };
 
+  const ownerShipContainer = {
+    maxWidth: '300px',
+    margin: 'auto',
+    fontSize: '15px',
+  }
+
+  const inputType = {
+    borderRadius: '20px',
+    backgroundColor: '#BAA06A',
+    padding: '5px',
+    fontSize: '16px',
+    fontWeight: 600,
+    color: 'black',
+  }
+
+  const fieldContainer = {
+    textAlign: 'left',
+    minHeight: '200px',
+    margin: '10px',
+  }
+
+  const header = {
+    color: 'white',
+    fontSize: '24px',
+    fontWeight: 700,
+    paddingLeft: '5px',
+  }
+
+  const nextButton = {
+    float: 'right',
+    padding: '5px',
+    borderRadius: '20px',
+    backgroundColor: '#BAA06A',
+    width: '90px',
+    fontSize: '18px',
+    fontWeight: 600,
+    color: 'black',
+  }
+
   return (
-    <>
+    <div style={ownerShipContainer}>
       {currentStage === 'purchase' && Object.keys(stages[currentStage]).length && (
         <div>
-          <div>{stages[currentStage].title}</div>
-          <div>
-            <input type="number" onChange={($event) => onPurchaseAmountChange($event)} />
+          <div style={fieldContainer}>
+            <div style={header}>{stages[currentStage].title}:</div>
+            <div>
+              <input style={inputType} type="number" onChange={($event) => onPurchaseAmountChange($event)} />
+            </div>
           </div>
-          <button className="next-button" onClick={handleNext}>
+          <button style={nextButton} className="next-button" onClick={handleNext}>
             Next
           </button>
         </div>
@@ -178,7 +227,7 @@ const Ownership = ({ loadNextSection, formData }) => {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

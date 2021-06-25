@@ -15,8 +15,6 @@ function field(props) {
     props.customOnChange(e.target.value, fieldConfig, item);
   }
 
-
-
   // eslint-disable-next-line default-case
   switch (fieldConfig.type) {
     case 'input':

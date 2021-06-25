@@ -171,14 +171,6 @@ export default function OnStart({ loadNextSection }) {
     },
   ]
 
-  // const handleNext = (field) => {
-  //   if (field.validation.required && !field.value) {
-  //     return;
-  //   }
-  //   setActiveIndex(++activeIndex);
-  //   setValues({ ...values, [field.id]: field.value })
-  // }
-
   const handleNext = field => {
     if (field.type === 'custom' && field.validation.required) {
       let isAllFieldsFilled = field.config.filter(r => r.value !== '');
@@ -207,7 +199,7 @@ export default function OnStart({ loadNextSection }) {
         formData
       });
     }
-  }
+  };
 
   const checkIfActive = data => {
     return data.index === activeIndex;
