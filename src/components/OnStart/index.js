@@ -7,7 +7,6 @@ export default function OnStart({ loadNextSection }) {
   let [activeIndex, setActiveIndex] = React.useState(0);
   let [values, setValues] = React.useState({});
 
-
   const formData = [
     {
       index: 0,
@@ -209,7 +208,6 @@ export default function OnStart({ loadNextSection }) {
       });
     }
   }
-
 
   const checkIfActive = data => {
     return data.index === activeIndex;

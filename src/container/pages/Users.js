@@ -13,6 +13,7 @@ import { H2, H4 } from '../../components/heading/style';
 import OnStart from "../../components/OnStart";
 import FontAwesome from 'react-fontawesome';
 import CapturePics from '../../components/capturePics/capturePics';
+import Ownership from '../../components/ownership/ownership';
 
 const User = lazy(() => import('./overview/UserCard'));
 const UserCardStyle = lazy(() => import('./overview/UserCardStyle'));
@@ -154,7 +155,7 @@ const Users = () => {
       {/* Art Work Info Page */}
       {
         showForm === 'ownership' &&
-        <p>Under construction.....</p>
+        <Ownership loadNextSection={(response) => loadNextSection(response)} />
       }
     </>
   );

@@ -1,4 +1,3 @@
-/* eslint-disable react/style-prop-object */
 import React, { useState } from 'react';
 import axios, { post } from 'axios';
 import WebcamCapture from '../camera/camera';
@@ -112,24 +111,37 @@ const CapturePics = ({ loadNextSection, formData }) => {
   };
 
   const converBase64toFileObj = base64String => {
-    const base64data = base64String.replace('data:image/jpeg;base64,', '');
-    const bs = atob(base64data);
-    const buffer = new ArrayBuffer(bs.length);
-    const ba = new Uint8Array(buffer);
-    for (let i = 0; i < bs.length; i++) {
-      ba[i] = bs.charCodeAt(i);
+    // const base64data = base64String.replace('data:image/jpeg;base64,', '');
+    // const bs = atob(base64data);
+    // const buffer = new ArrayBuffer(bs.length);
+    // const ba = new Uint8Array(buffer);
+    // for (let i = 0; i < bs.length; i++) {
+    //   ba[i] = bs.charCodeAt(i);
+    // }
+    // return new Blob([ba], { type: 'image/jpeg' });
+    var arr = base64String.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
     }
-    return new Blob([ba], { type: 'image/jpeg' });
+
+    return new File([u8arr], `upload-${+new Date()}`, { type: mime });
   };
 
   const fileUpload = (imgSrc, type = 'live') => {
     console.log('type', type);
+    const selectedFile = type === 'upload' ? imgSrc : converBase64toFileObj(imgSrc);
+    console.log('selecredFile', selectedFile.files[0].size)
     const payload = new FormData();
     payload.append('ArtId', artId);
     payload.append('CollectionId', collectionID);
-    payload.append('OriginalImage', type === 'upload' ? selectedFile : converBase64toFileObj(imgSrc));
+    payload.append('OriginalImage', selectedFile);
     payload.append('ArtName', 'Test ArtName');
-    payload.append('Filelen', '64');
+    payload.append('Filelen', Math.round(type === 'upload' ? selectedFile.files[0].size / 1000 : selectedFile.size / 1000));
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
@@ -192,13 +204,6 @@ const CapturePics = ({ loadNextSection, formData }) => {
     setSelectedFile(null);
     if (imageInputRef.current) imageInputRef.current.value = '';
   };
-
-  // const titleStyle = {
-  //   padding: '10px',
-  //   fontWeight: 700,
-  //   fontSize: '20px',
-  //   color: 'white',
-  // }
 
   const captureContainer = {
     maxWidth: '300px',
