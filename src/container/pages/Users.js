@@ -93,7 +93,7 @@ const Users = () => {
                   <Col>
                     <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bolder', margin: '0' }}>
                       Step 1:
-                      {completedStages.artWorkInfo === true && <span style={{color: '#00FF87', paddingLeft: '3px'}}>Complete</span>}
+                      {completedStages.artWorkInfo === true && <span style={{color: '#00FF87', paddingLeft: '10px'}}>Complete</span>}
                     </h4>
                     <div style={{ color: '#9598A5', fontSize: '24px' }}>{completedStages.artWorkInfo !== true ? 'Enter Artwork info' : 'Artwork Info'}</div>
                   </Col>
@@ -121,7 +121,7 @@ const Users = () => {
                   <Col>
                     <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bolder', margin: '0' }}>
                       Step 2:
-                      {completedStages.takePictures === true && <span style={{color: '#00FF87', paddingLeft: '3px'}}>Complete</span>}
+                      {completedStages.takePictures === true && <span style={{color: '#00FF87', paddingLeft: '10px'}}>Complete</span>}
                     </h4>
                     <div style={{ color: '#9598A5', fontSize: '24px' }}>{completedStages.takePictures !== true ? 'Take Pictures' : '<n> Pictures'}</div>
                   </Col>
@@ -149,7 +149,7 @@ const Users = () => {
                   <Col>
                     <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bold', margin: '0' }}>
                       Step 3:
-                      {completedStages.ownership === true && <span style={{color: '#00FF87', paddingLeft: '3px'}}>Complete</span>}
+                      {completedStages.ownership === true && <span style={{color: '#00FF87', paddingLeft: '10px'}}>Complete</span>}
                     </h4>
                     <div style={{ color: '#9598A5', fontSize: '24px' }}>Ownership and History</div>
 

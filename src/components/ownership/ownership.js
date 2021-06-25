@@ -159,6 +159,7 @@ const Ownership = ({ loadNextSection, formData }) => {
             <div>
               <input style={inputType} type="number" onChange={($event) => onPurchaseAmountChange($event)} />
             </div>
+            <span style={{float: 'right', padding: '10px'}}>US Dollars</span>
           </div>
           <button style={nextButton} className="next-button" onClick={handleNext}>
             Next

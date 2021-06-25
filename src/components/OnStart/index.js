@@ -216,7 +216,8 @@ export default function OnStart({ loadNextSection }) {
         <Field key={field.id} fieldConfig={field}
           onNextClick={() => handleNext(field)}
           changed={(e) => fieldChange(e, field)}
-          customOnChange={customOnChange} />
+          customOnChange={customOnChange}
+          dimensionUnitChange={dimensionUnitChange} />
       )
     }
     return;
@@ -230,13 +231,19 @@ export default function OnStart({ loadNextSection }) {
     })
   }
 
+  const dimensionUnitChange = (field) => {
+    field.config.map(item => {
+      item.type = item.type === 'inches'? 'cm': 'inches'
+    });
+  }
+
   return (
-    <Start>
+    <Start style={{marginBottom: '100px'}}>
       <div className="onstart-container on-start">
         <div className="d-flex status-bar-div" style={{ minHeight: '120px' }}>
           <div className='status-bar'></div>
           <div className='status-bar'></div>
-          <div className='status-bar'>  </div>
+          <div className='status-bar'></div>
           <div className='status-bar'></div>
           <div className='status-bar'></div>
           <div className='status-bar'></div>

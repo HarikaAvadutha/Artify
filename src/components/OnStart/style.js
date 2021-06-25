@@ -25,6 +25,7 @@ const OnStart = Styled.div`
         font-size: 18px;
         font-weight: 600;
         color: black;
+        margin: 20px 0;
     }
     .field-container {
         text-align: left;
