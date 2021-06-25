@@ -128,7 +128,7 @@ const CapturePics = ({ loadNextSection, formData }) => {
     const payload = new FormData();
     payload.append('artId', artId);
     payload.append('collectionId', collectionID);
-    payload.append('artName', formData.values['Artist Name']);
+    payload.append('artName', formData.artWorkInfo.values['Artist Name']);
     payload.append('artNotes', 'Test ArtName');
     payload.append('filelen', Math.round(finalFile.size / 1000));
     payload.append('originalImage', finalFile);

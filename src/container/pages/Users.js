@@ -82,50 +82,52 @@ const Users = () => {
     <>
       {/* Main Page */}
       {!showForm && (
-        <Main style={{ background: '#0B1A23', marginLeft: '0' }}>
+        <Main style={{ background: '#0B1A23', marginLeft: '0', marginBottom: '100px', fontSize: '14px' }}>
           <UsercardWrapper>
             <Row gutter={25} style={{ maxWidth: '300px', margin: 'auto' }}>
-              <Row style={{ maxWidth: "300px", marginBottom: "30px", textAlign: 'center' }}>
+              <Row style={{ maxWidth: "300px", marginBottom: "30px", }}>
                 <div xs={24} className="d-flex justify-content-center" style={{ margin: 'auto' }} key="index">
-                  <Col>
-                    <FontAwesome name="keyboard" size="3x" style={{ padding: '10px', color: '#BAA06A' }} />
+                  <Col style={{margin: 'auto'}}>
+                    <FontAwesome name="keyboard" size="3x" style={{ padding: '10px', color: '#BAA06A', minWidth: '75px' }} />
                   </Col>
                   <Col>
-                    <h4 style={{ color: '#BAA06A', fontSize: '30px', margin: 0 }}>
+                    <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bolder', margin: '0' }}>
                       Step 1:
-                      {completedStages.artWorkInfo === true && <span>Complete</span>}
+                      {completedStages.artWorkInfo === true && <span style={{color: '#00FF87', paddingLeft: '3px'}}>Complete</span>}
                     </h4>
-                    <div style={{ color: '#9598A5', fontSize: '30px' }}>Enter Artwork info</div>
-                    {completedStages.artWorkInfo === false &&
-                      completedStages.takePictures === false &&
-                      completedStages.ownership === false && (
-                        <Button
-                          onClick={() => setShowForm('artWorkInfo')}
-                          className="start_btn"
-                          type="button"
-                          style={{ height: '30%', width: '65%' }}
-                        >
-                          START
-                        </Button>
-                      )}
+                    <div style={{ color: '#9598A5', fontSize: '24px' }}>{completedStages.artWorkInfo !== true ? 'Enter Artwork info' : 'Artwork Info'}</div>
                   </Col>
                 </div>
               </Row>
-              <Row style={{ maxWidth: "300px", marginBottom: "30px", textAlign: 'center' }}>
+              <Row style={{ maxWidth: "300px", marginBottom: "30px", height: "30%", width: "100%", marginLeft: '23%' }}>
+                {completedStages.artWorkInfo === false &&
+                  completedStages.takePictures === false &&
+                  completedStages.ownership === false && (
+                    <Button
+                      onClick={() => setShowForm('artWorkInfo')}
+                      className="start_btn"
+                      type="button"
+                      style={{ height: '30%', width: '65%' }}
+                    >
+                      START
+                    </Button>
+                  )}
+              </Row>
+              <Row style={{ maxWidth: "300px", marginBottom: "30px", }}>
                 <div xs={24} className="d-flex justify-content-center" style={{ margin: "auto" }} key="index" >
-                  <Col>
-                    <FontAwesome name="camera" size="3x" style={{ padding: '10px', color: '#BAA06A' }} />
+                  <Col style={{margin: 'auto'}}>
+                    <FontAwesome name="camera" size="3x" style={{ padding: '10px', color: '#BAA06A', minWidth: '75px' }} />
                   </Col>
                   <Col>
-                    <h4 style={{ color: '#BAA06A', fontSize: '30px', margin: 0 }}>
+                    <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bolder', margin: '0' }}>
                       Step 2:
-                      {completedStages.takePictures === true && <span>Complete</span>}
+                      {completedStages.takePictures === true && <span style={{color: '#00FF87', paddingLeft: '3px'}}>Complete</span>}
                     </h4>
-                    <div style={{ color: '#9598A5', fontSize: '30px' }}>Take Pictures</div>
+                    <div style={{ color: '#9598A5', fontSize: '24px' }}>{completedStages.takePictures !== true ? 'Take Pictures' : '<n> Pictures'}</div>
                   </Col>
                 </div>
               </Row>
-              <Row style={{ maxWidth: "300px", marginBottom: "30px", textAlign: 'center', height: "30%", width: "100%", marginLeft: '23%' }}>
+              <Row style={{ maxWidth: "300px", marginBottom: "30px", height: "30%", width: "100%", marginLeft: '23%' }}>
                 {completedStages.artWorkInfo === true &&
                   completedStages.takePictures === false &&
                   completedStages.ownership === false && (
@@ -139,22 +141,22 @@ const Users = () => {
                     </Button>
                   )}
               </Row>
-              <Row style={{ maxWidth: "300px", marginBottom: '30px', textAlign: 'center' }}>
+              <Row style={{ maxWidth: "300px", marginBottom: '30px', }}>
                 <div xs={24} className="d-flex justify-content-center" style={{ margin: 'auto' }} key="index">
-                  <Col>
-                    <FontAwesome name="tag" size="3x" style={{ padding: '10px', color: '#BAA06A' }} />
+                  <Col style={{margin: 'auto'}}>
+                    <FontAwesome name="tag" size="3x" style={{ padding: '10px', color: '#BAA06A', minWidth: '75px' }} />
                   </Col>
                   <Col>
-                    <h4 style={{ color: '#BAA06A', fontSize: '30px', margin: 0 }}>
+                    <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bold', margin: '0' }}>
                       Step 3:
-                      {completedStages.ownership === true && <span>Complete</span>}
+                      {completedStages.ownership === true && <span style={{color: '#00FF87', paddingLeft: '3px'}}>Complete</span>}
                     </h4>
-                    <div style={{ color: '#9598A5', fontSize: '30px' }}>Ownership and History</div>
+                    <div style={{ color: '#9598A5', fontSize: '24px' }}>Ownership and History</div>
 
                   </Col>
                 </div>
               </Row>
-              <Row style={{ maxWidth: "300px", marginBottom: "30px", textAlign: 'center', height: "30%", width: "100%", marginLeft: '23%' }}>
+              <Row style={{ maxWidth: "300px", marginBottom: "30px", height: "30%", width: "100%", marginLeft: '23%' }}>
                 {/* {completedStages.artWorkInfo === true &&
                   completedStages.takePictures === true &&
                   completedStages.ownership === false && ( */}

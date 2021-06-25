@@ -176,7 +176,7 @@ export default function OnStart({ loadNextSection }) {
       formData.values = values;
       loadNextSection({
         name: 'artWorkInfo',
-        formData
+        data: formData
       });
     }
   });
