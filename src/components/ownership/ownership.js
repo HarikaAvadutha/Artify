@@ -115,15 +115,18 @@ const Ownership = ({ loadNextSection, formData }) => {
     maxWidth: '300px',
     margin: 'auto',
     fontSize: '15px',
+    marginBottom: '100px'
   }
 
   const inputType = {
+    width: '100%',
     borderRadius: '20px',
     backgroundColor: '#BAA06A',
     padding: '5px',
     fontSize: '16px',
     fontWeight: 600,
     color: 'black',
+    textAlign: 'right',
   }
 
   const fieldContainer = {
@@ -134,7 +137,7 @@ const Ownership = ({ loadNextSection, formData }) => {
 
   const header = {
     color: 'white',
-    fontSize: '24px',
+    fontSize: '20px',
     fontWeight: 700,
     paddingLeft: '5px',
   }
@@ -148,18 +151,83 @@ const Ownership = ({ loadNextSection, formData }) => {
     fontSize: '18px',
     fontWeight: 600,
     color: 'black',
+    margin: '10px 0'
+  }
+
+  const skipButton = {
+    float: 'right',
+    padding: '5px',
+    borderRadius: '20px',
+    backgroundColor: '#555862',
+    width: '90px',
+    fontSize: '18px',
+    color: '#0B1A23',
+    margin: '10px 0',
+  }
+
+  const inputNextButton = {
+    backgroundColor: '#BAA06A',
+    borderRadius: 24.5,
+    color: '#0B1A23',
+    margin: '5px'
+  }
+
+  const inputBackButton = {
+    backgroundColor: '#555862',
+    borderRadius: 24.5,
+    color: '#FFFFFF',
+    margin: '5px'
+  }
+
+  const imageDiv = {
+    width: '126px',
+    height: '168px',
+    border: '2px solid white',
+    margin: 'auto'
+  }
+
+  const inputField = {
+    width: '100%',
+    borderRadius: '20px',
+    backgroundColor: '#BAA06A',
+    padding: '5px',
+    fontSize: '16px',
+    fontWeight: 600,
+    color: 'black',
+    margin: '10px 0',
+    textAlign: 'center'
+  }
+
+  const inputCity = {
+    width: '100%',
+    borderRadius: '20px',
+    border: '1px solid #BAA06A',
+    backgroundColor: '#0B1A23',
+    color: '#BAA06A',
+    padding: '5px',
+    margin: '3px 0',
+  }
+
+  const inputState = {
+    width: '100%',
+    borderRadius: '20px',
+    backgroundColor: '#BAA06A ',
+    color: 'black',
+    padding: '5px',
+    margin: '3px 0',
   }
 
   return (
     <div style={ownerShipContainer}>
       {currentStage === 'purchase' && Object.keys(stages[currentStage]).length && (
         <div>
+          <div style={imageDiv}></div>
           <div style={fieldContainer}>
             <div style={header}>{stages[currentStage].title}:</div>
             <div>
               <input style={inputType} type="number" onChange={($event) => onPurchaseAmountChange($event)} />
             </div>
-            <span style={{float: 'right', padding: '10px'}}>US Dollars</span>
+            <span style={{ float: 'right', padding: '10px' }}>US Dollars</span>
           </div>
           <button style={nextButton} className="next-button" onClick={handleNext}>
             Next
@@ -168,63 +236,67 @@ const Ownership = ({ loadNextSection, formData }) => {
       )}
       {currentStage === 'provenance' && Object.keys(stages[currentStage]).length && (
         <>
-          <div>
-            <div>{stages[currentStage].title}</div>
-            <div>{stages[currentStage].caption}</div>
+          <div style={imageDiv}></div>
+          <div style={fieldContainer}>
             <div>
-              <Button onClick={() => handleSelectedType('upload')}>Browse for File(s)...</Button>
+              <div style={header}>{stages[currentStage].title}</div>
+              <div>{stages[currentStage].caption}</div>
+              <div>
+                <Button style={inputField} onClick={() => handleSelectedType('upload')}>Browse for File(s)...</Button>
+              </div>
+              <div>
+                <Button style={inputField} onClick={() => handleSelectedType('live')}>Use Camera to Scan Documents</Button>
+              </div>
+              <div>
+                <Button style={inputField} onClick={() => handleSelectedType('manual')}>Enter Information Manullay</Button>
+              </div>
             </div>
-            <div>
-              <Button onClick={() => handleSelectedType('live')}>Use Camera to Scan Documents</Button>
-            </div>
-            <div>
-              <Button onClick={() => handleSelectedType('manual')}>Enter Information Manullay</Button>
-            </div>
+            {selectedType === 'live' && (
+              <div>
+                <WebcamCapture collectionID={collectionID} handleBack={handleBack} handleNext={handleNext} />
+              </div>
+            )}
+            {selectedType === 'upload' && (
+              <div style={{ margin: '25px 0' }}>
+                <input type="file" ref={imageInputRef} onChange={($event) => handleFileInput($event.target.files[0],)} />
+                <Button style={inputBackButton} onClick={handleBack}>
+                  Back
+                </Button>
+                <Button style={inputNextButton} onClick={() => handleNext({ imgSrc: '', type: 'upload' })}>
+                  Next
+                </Button>
+              </div>
+            )}
+            {selectedType === 'manual' && (
+              <div style={{ margin: '25px 0' }}>
+                <input onChange={($event) => handleManualInput($event)} />
+                <Button style={inputBackButton} className="next-button" onClick={handleBack}>
+                  Back
+                </Button>
+                <Button style={inputNextButton} className="next-button" onClick={() => handleNext({ imgSrc: '', type: 'manual' })}>
+                  Next
+                </Button>
+              </div>
+            )}
           </div>
-          {selectedType === 'live' && (
-            <div>
-              <WebcamCapture collectionID={collectionID} handleBack={handleBack} handleNext={handleNext} />
-            </div>
-          )}
-          {selectedType === 'upload' && (
-            <div>
-              <input type="file" ref={imageInputRef} onChange={($event) => handleFileInput($event.target.files[0],)} />
-              <Button className="next-button" onClick={handleBack}>
-                Back
-              </Button>
-              <Button className="next-button" onClick={() => handleNext({ imgSrc: '', type: 'upload' })}>
-                Next
-              </Button>
-            </div>
-          )}
-          {selectedType === 'manual' && (
-            <div>
-              <input onChange={($event) => handleManualInput($event)} />
-              <Button className="next-button" onClick={handleBack}>
-                Back
-              </Button>
-              <Button className="next-button" onClick={() => handleNext({ imgSrc: '', type: 'manual' })}>
-                Next
-              </Button>
-            </div>
-          )}
           {!selectedType && (
-            <button className="next-button" onClick={handleNext}>
-              Next
+            <button style={skipButton} onClick={handleNext}>
+              Skip
             </button>)}
         </>
       )}
       {currentStage === 'paintingLocation' && Object.keys(stages[currentStage]).length && (
-        <div>
-          <div>{stages[currentStage].title}</div>
-          <div>
-            <label>City:</label>
-            <input type="text" onChange={($event) => onLocationChange($event, 'city')} />
-            <label>State:</label>
-            <input type="text" onChange={($event) => onLocationChange($event, 'state')} />
+        <div style={fieldContainer}>
+          <div style={header}>{stages[currentStage].title}</div>
+          <p>Optional</p>
+          <div style={{ margin: '10px 0' }}>
+            <label style={{ fontSize: '22px', fontWeight: 700 }}>City:</label><br />
+            <input style={inputCity} type="text" onChange={($event) => onLocationChange($event, 'city')} />
+            <label style={{ fontSize: '22px', fontWeight: 700 }}>State:</label><br />
+            <input style={inputState} type="text" onChange={($event) => onLocationChange($event, 'state')} />
           </div>
-          <button className="next-button" onClick={handleNext}>
-            Next
+          <button style={skipButton} onClick={handleNext}>
+            Skip
           </button>
         </div>
       )}
