@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Field from './field';
 import { OnStart as Start } from './style';
 
@@ -171,14 +171,23 @@ export default function OnStart({ loadNextSection }) {
     },
   ]
 
+  useEffect(() => {
+    if (currentScreenCnt === (formData.length + 1)) {
+      formData.values = values;
+      loadNextSection({
+        name: 'artWorkInfo',
+        formData
+      });
+    }
+  });
+
   const handleNext = field => {
     if (field.type === 'custom' && field.validation.required) {
       let isAllFieldsFilled = field.config.filter(r => r.value !== '');
-      console.log('isAllFieldsFilled', isAllFieldsFilled)
       if (isAllFieldsFilled.length === field.config.length) {
         currentScreenCnt += 1;
         setActiveIndex(++activeIndex);
-        setValues({ ...values, [field.id]: field.value })
+        setValues({ ...values, [field.id]: field.config })
       }
     } else if (field.validation.required && !field.value) {
       return;
@@ -190,14 +199,6 @@ export default function OnStart({ loadNextSection }) {
       currentScreenCnt += 1;
       setActiveIndex(++activeIndex);
       setValues({ ...values, [field.id]: field.value })
-    }
-    console.log('currentIndex', currentScreenCnt);
-    console.log('formDataLatsIndex', formData.length + 1);
-    if (currentScreenCnt === (formData.length + 1)) {
-      loadNextSection({
-        name: 'artWorkInfo',
-        formData
-      });
     }
   };
 

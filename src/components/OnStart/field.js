@@ -45,7 +45,7 @@ function field(props) {
         <div>
           <span> Measure to 1/4 inch.</span>
           {fieldConfig.config.map(item => (
-            <div className="custom-div">
+            <div className="custom-div" key={item.id}>
               <div className="header">{item.id}</div>
               <span className="arrows">
                 {item.id === 'Height' ?
@@ -60,10 +60,10 @@ function field(props) {
               <span>{item.type}</span>
             </div>
           ))}
-          <div style={{float:'-moz-initial'}}>
+          <div style={{padding: '5px', textAlign:'right'}}>
               cm
               <label class='switch'>
-                <input type='checkbox' />
+                <input type='checkbox'/>fv
                 <span class="slider round"></span>
               </label>
               inches
