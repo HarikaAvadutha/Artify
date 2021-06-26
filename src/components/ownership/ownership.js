@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios, { post } from 'axios';
 import WebcamCapture from '../camera/camera';
 import { generateUUID } from '../../utility/utility';
 import { Button } from '../buttons/buttons';
@@ -34,36 +33,6 @@ const Ownership = ({ loadNextSection, formData }) => {
     };
   };
 
-  const converBase64toFileObj = base64String => {
-    const base64data = base64String.replace('data:image/jpeg;base64,', '');
-    const bs = atob(base64data);
-    const buffer = new ArrayBuffer(bs.length);
-    const ba = new Uint8Array(buffer);
-    for (let i = 0; i < bs.length; i++) {
-      ba[i] = bs.charCodeAt(i);
-    }
-    return new Blob([ba], { type: 'image/jpeg' });
-  };
-
-  const fileUpload = (imgSrc, type = 'live') => {
-    console.log('type', type);
-    const payload = new FormData();
-    payload.append('ArtId', artId);
-    payload.append('CollectionId', collectionID);
-    payload.append('OriginalImage', type === 'upload' ? selectedFile : converBase64toFileObj(imgSrc));
-    payload.append('ArtName', 'Test ArtName');
-    payload.append('Filelen', '64');
-    const config = {
-      headers: {
-        'content-type': 'multipart/form-data',
-        Authorization: `Token ${localStorage.getItem('token')}`,
-      },
-    };
-    return post(SERVER_ENDPOINT, payload, config);
-  };
-
-
-
   const handleFileInput = (file) => {
     // handle validations
     console.log('selectedFle', file)
@@ -80,17 +49,18 @@ const Ownership = ({ loadNextSection, formData }) => {
   }
 
 
-  const handleNext = ({ imgSrc, type }) => {
+  const handleNext = () => {
     let nextObj;
-    currentScreenCnt += 1;
-    if (currentScreenCnt === (stages.length + 1)) {
-      loadNextSection({
-        name: 'artWorkInfo',
-        formData
-      });
-    }
     nextObj = navObj(stages, currentStage, 1);
-    setCurrentStage(nextObj.key);
+    currentScreenCnt += 1;
+    if (!Object.values(nextObj).filter(Boolean).length) {
+      loadNextSection({
+        name: 'ownership',
+        data: formData
+      });
+    } else {
+      setCurrentStage(nextObj.key);
+    }
   };
 
   const handleBack = () => {
@@ -180,10 +150,8 @@ const Ownership = ({ loadNextSection, formData }) => {
   }
 
   const imageDiv = {
-    width: '126px',
-    height: '168px',
-    border: '2px solid white',
-    margin: 'auto'
+    maxWidth: '200px',
+    border: '1px solid white',
   }
 
   const inputField = {
@@ -221,7 +189,7 @@ const Ownership = ({ loadNextSection, formData }) => {
     <div style={ownerShipContainer}>
       {currentStage === 'purchase' && Object.keys(stages[currentStage]).length && (
         <div>
-          <div style={imageDiv}></div>
+          <div style={{ textAlign: 'center' }}><img style={imageDiv} src={formData.takePictures} alt="mainImage" /></div>
           <div style={fieldContainer}>
             <div style={header}>{stages[currentStage].title}:</div>
             <div>
@@ -236,7 +204,7 @@ const Ownership = ({ loadNextSection, formData }) => {
       )}
       {currentStage === 'provenance' && Object.keys(stages[currentStage]).length && (
         <>
-          <div style={imageDiv}></div>
+          <div style={{ textAlign: 'center' }}><img style={imageDiv} src={formData.takePictures} alt="mainImage" /></div>
           <div style={fieldContainer}>
             <div>
               <div style={header}>{stages[currentStage].title}</div>
@@ -258,7 +226,7 @@ const Ownership = ({ loadNextSection, formData }) => {
             )}
             {selectedType === 'upload' && (
               <div style={{ margin: '25px 0' }}>
-                <input type="file" ref={imageInputRef} onChange={($event) => handleFileInput($event.target.files[0],)} />
+                <input type="file" ref={imageInputRef} onChange={($event) => handleFileInput($event.target.files[0])} />
                 <Button style={inputBackButton} onClick={handleBack}>
                   Back
                 </Button>

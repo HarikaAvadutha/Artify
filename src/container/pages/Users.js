@@ -50,22 +50,6 @@ const Users = () => {
   });
   const [showForm, setShowForm] = useState('');
 
-  const handleSearch = searchText => {
-    const data = searchData.filter(item => item.title.toUpperCase().startsWith(searchText.toUpperCase()));
-    setState({
-      ...state,
-      notData: data,
-    });
-  };
-
-  const onShowSizeChange = (current, pageSize) => {
-    setState({ ...state, current, pageSize });
-  };
-
-  const onChange = page => {
-    setState({ ...state, page });
-  };
-
   const loadNextSection = (prevSection = null) => {
     console.log('section', prevSection);
     formData[prevSection.name] = prevSection.data;
@@ -74,8 +58,7 @@ const Users = () => {
   };
 
   const shouldButtonDisable = () => {
-    console.log('shouldButtonDisable', !(completedStages.artWorkInfo && completedStages.takePictures));
-    return !(completedStages.artWorkInfo && completedStages.takePictures);
+    return !(completedStages.artWorkInfo && completedStages.takePictures && completedStages.ownership);
   };
 
   return (
@@ -87,13 +70,13 @@ const Users = () => {
             <Row gutter={25} style={{ maxWidth: '300px', margin: 'auto' }}>
               <Row style={{ maxWidth: "300px", marginBottom: "30px", }}>
                 <div xs={24} className="d-flex justify-content-center" style={{ margin: 'auto' }} key="index">
-                  <Col style={{margin: 'auto'}}>
+                  <Col style={{ margin: 'auto' }}>
                     <FontAwesome name="keyboard" size="3x" style={{ padding: '10px', color: '#BAA06A', minWidth: '75px' }} />
                   </Col>
                   <Col>
                     <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bolder', margin: '0' }}>
                       Step 1:
-                      {completedStages.artWorkInfo === true && <span style={{color: '#00FF87', paddingLeft: '10px'}}>Complete</span>}
+                      {completedStages.artWorkInfo === true && <span style={{ color: '#00FF87', paddingLeft: '10px' }}>Complete</span>}
                     </h4>
                     <div style={{ color: '#9598A5', fontSize: '24px' }}>{completedStages.artWorkInfo !== true ? 'Enter Artwork info' : 'Artwork Info'}</div>
                   </Col>
@@ -115,13 +98,13 @@ const Users = () => {
               </Row>
               <Row style={{ maxWidth: "300px", marginBottom: "30px", }}>
                 <div xs={24} className="d-flex justify-content-center" style={{ margin: "auto" }} key="index" >
-                  <Col style={{margin: 'auto'}}>
+                  <Col style={{ margin: 'auto' }}>
                     <FontAwesome name="camera" size="3x" style={{ padding: '10px', color: '#BAA06A', minWidth: '75px' }} />
                   </Col>
                   <Col>
                     <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bolder', margin: '0' }}>
                       Step 2:
-                      {completedStages.takePictures === true && <span style={{color: '#00FF87', paddingLeft: '10px'}}>Complete</span>}
+                      {completedStages.takePictures === true && <span style={{ color: '#00FF87', paddingLeft: '10px' }}>Complete</span>}
                     </h4>
                     <div style={{ color: '#9598A5', fontSize: '24px' }}>{completedStages.takePictures !== true ? 'Take Pictures' : '<n> Pictures'}</div>
                   </Col>
@@ -143,13 +126,13 @@ const Users = () => {
               </Row>
               <Row style={{ maxWidth: "300px", marginBottom: '30px', }}>
                 <div xs={24} className="d-flex justify-content-center" style={{ margin: 'auto' }} key="index">
-                  <Col style={{margin: 'auto'}}>
+                  <Col style={{ margin: 'auto' }}>
                     <FontAwesome name="tag" size="3x" style={{ padding: '10px', color: '#BAA06A', minWidth: '75px' }} />
                   </Col>
                   <Col>
                     <h4 style={{ color: '#BAA06A', fontSize: '24px', fontWeight: 'bold', margin: '0' }}>
                       Step 3:
-                      {completedStages.ownership === true && <span style={{color: '#00FF87', paddingLeft: '10px'}}>Complete</span>}
+                      {completedStages.ownership === true && <span style={{ color: '#00FF87', paddingLeft: '10px' }}>Complete</span>}
                     </h4>
                     <div style={{ color: '#9598A5', fontSize: '24px' }}>Ownership and History</div>
 
@@ -157,18 +140,18 @@ const Users = () => {
                 </div>
               </Row>
               <Row style={{ maxWidth: "300px", marginBottom: "30px", height: "30%", width: "100%", marginLeft: '23%' }}>
-                {/* {completedStages.artWorkInfo === true &&
+                {completedStages.artWorkInfo === true &&
                   completedStages.takePictures === true &&
-                  completedStages.ownership === false && ( */}
-                <Button
-                  onClick={() => setShowForm('ownership')}
-                  className="start_btn"
-                  type="button"
-                  style={{ height: '30%', width: '70%' }}
-                >
-                  START
-                </Button>
-                {/* )} */}
+                  completedStages.ownership === false && (
+                    <Button
+                      onClick={() => setShowForm('ownership')}
+                      className="start_btn"
+                      type="button"
+                      style={{ height: '30%', width: '70%' }}
+                    >
+                      START
+                    </Button>
+                  )}
               </Row>
               <div style={{ textAlign: 'center', width: '100%' }}>
                 <Button
@@ -194,12 +177,12 @@ const Users = () => {
       )}
       {/* Art Work Info Page */}
       {showForm === 'artWorkInfo' && <OnStart loadNextSection={response => loadNextSection(response)} />}
-      {/* Art Work Info Page */}
+      {/* Capture pics Page */}
       {showForm === 'takePictures' && (
         <CapturePics formData={formData} loadNextSection={response => loadNextSection(response)} />
       )}
-      {/* Art Work Info Page */}
-      {showForm === 'ownership' && <Ownership loadNextSection={response => loadNextSection(response)} />}
+      {/* Ownership Page */}
+      {showForm === 'ownership' && <Ownership formData={formData} loadNextSection={response => loadNextSection(response)} />}
     </>
   );
 };

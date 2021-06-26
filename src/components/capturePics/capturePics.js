@@ -15,6 +15,7 @@ const CapturePics = ({ loadNextSection, formData }) => {
   const imageInputRef = React.useRef();
 
   const artId = `art-${generateUUID()}`;
+  let mainImage;
 
   const stages = {
     info: {
@@ -98,14 +99,6 @@ const CapturePics = ({ loadNextSection, formData }) => {
   };
 
   const converBase64toFileObj = base64String => {
-    // const base64data = base64String.replace('data:image/jpeg;base64,', '');
-    // const bs = atob(base64data);
-    // const buffer = new ArrayBuffer(bs.length);
-    // const ba = new Uint8Array(buffer);
-    // for (let i = 0; i < bs.length; i++) {
-    //   ba[i] = bs.charCodeAt(i);
-    // }
-    // return new Blob([ba], { type: 'image/jpeg' });
     const arr = base64String.split(',');
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
@@ -120,11 +113,10 @@ const CapturePics = ({ loadNextSection, formData }) => {
   };
 
   const fileUpload = (imgSrc, type = 'live') => {
-    console.log('type', type);
     const finalFile = type === 'upload' ? selectedFile : converBase64toFileObj(imgSrc);
-    // if(type === 'upload') {
-    console.log('selecredFile', finalFile);
-    // }
+    if (!mainImage) {
+      mainImage = type === 'upload' ? URL.createObjectURL(selectedFile) : imgSrc;
+    }
     const payload = new FormData();
     payload.append('artId', artId);
     payload.append('collectionId', collectionID);
@@ -149,14 +141,6 @@ const CapturePics = ({ loadNextSection, formData }) => {
     let nextObj;
     console.log('currentStage', currentStage);
     console.log('stages', stages);
-    // if (!stages[currentStage].hasOwnProperty('isLast')) {
-    //   const nextStage = navObj(stages, currentStage, 1);
-    //   setCurrentStage(nextStage.key);
-    // } else {
-    //   if(currentStage === stages[Object.keys(stages).length - 1]) {
-    //
-    //   }
-    // }
     if (currentStage !== 'info') {
       console.log('formData', formData);
       fileUpload(imgSrc, type)
@@ -170,6 +154,7 @@ const CapturePics = ({ loadNextSection, formData }) => {
           if (!Object.values(nextObj).filter(Boolean).length) {
             loadNextSection({
               name: 'takePictures',
+              data: mainImage
             });
           } else {
             setCurrentStage(nextObj.key);
@@ -177,20 +162,11 @@ const CapturePics = ({ loadNextSection, formData }) => {
         })
         .catch(error => console.log('file upload error', error));
     }
-    // else if (currentStage === 'mainImage2') {
-    //   loadNextSection();
-    // }
     else {
       nextObj = navObj(stages, currentStage, 1);
       currentScreenCnt += 1;
       setCurrentStage(nextObj.key);
     }
-
-    // if (currentScreenCnt === stages.length + 1) {
-    //   loadNextSection({
-    //     name: 'takePictures',
-    //   });
-    // }
   };
 
   const handleBack = () => {
@@ -291,7 +267,7 @@ const CapturePics = ({ loadNextSection, formData }) => {
             )}
             {selectedType === 'upload' && (
               <div style={{ margin: '25px 0' }}>
-                <input type="file" ref={imageInputRef} onChange={($event) => handleFileInput($event.target.files[0],)} />
+                <input type="file" ref={imageInputRef} onChange={($event) => handleFileInput($event.target.files[0])} />
                 <Button style={manualBackButton} className="next-button" onClick={handleBack}>
                   Back
                 </Button>
