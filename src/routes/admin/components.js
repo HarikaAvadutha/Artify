@@ -1,6 +1,5 @@
 import React, { lazy } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
-
 const Button = lazy(() => import('../../container/ui-elements/Button'));
 const Alerts = lazy(() => import('../../container/ui-elements/Alerts'));
 const Modals = lazy(() => import('../../container/ui-elements/Modals'));
@@ -101,6 +100,8 @@ const ComponentRoute = () => {
       <Route path={`${path}/confirm`} component={Confirme} />
       <Route path={`${path}/menu`} component={Menu} />
       <Route path={`${path}/upload`} component={Upload} />
+      <Route path={`${path}/collection`} component={Upload} />
+      <Route path={`${path}/thank-you`} component={Upload} />
       <Route path={`${path}/drag`} component={DragDrop} />
       <Route exact path={`${path}/base`} component={DashboardBase} />
     </Switch>

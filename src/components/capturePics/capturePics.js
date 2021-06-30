@@ -4,7 +4,9 @@ import WebcamCapture from '../camera/camera';
 import { generateUUID } from '../../utility/utility';
 import { Button } from '../buttons/buttons';
 
-const collectionID = `coll-${generateUUID()}`;
+// const collectionID = `coll-${generateUUID()}`;
+const collectionID = Math.floor(Math.random() * 1000000000);
+
 const SERVER_ENDPOINT = 'http://localhost:5000/api/art/';
 
 let currentScreenCnt = 1;
@@ -14,7 +16,9 @@ const CapturePics = ({ loadNextSection, formData }) => {
   const [selectedType, setSelectedType] = useState(null);
   const imageInputRef = React.useRef();
 
-  const artId = `art-${generateUUID()}`;
+  // const artId = `art-${generateUUID()}`;
+  const artId = Math.floor(Math.random() * 1000000000);
+
   let mainImage;
 
   const stages = {
@@ -26,69 +30,69 @@ const CapturePics = ({ loadNextSection, formData }) => {
       title: 'Main Image',
       caption: 'Capture the entire work including the frame from directly in front',
     },
-    mainImage2: {
-      title: 'Main Image (2)',
-      caption: 'Take 2 steps to the right. This may reduce glare. Capture the entire work including the frame.',
-    },
-    mainImage3: {
-      title: 'Main Image (3)',
-      caption: 'Take 4 steps to the left. This may reduce glare. Capture the entire work including the frame.',
-    },
-    upperLeftQuadrant: {
-      title: 'Upper Left Quadrant',
-      caption: 'Align area in green rectangle.',
-    },
-    upperRightQuadrant: {
-      title: 'Upper Right Quadrant',
-      caption: 'Align area in green rectangle.',
-    },
-    lowerLeftQuadrant: {
-      title: 'Lower Left Quadrant',
-      caption: 'Align area in green rectangle.',
-    },
-    lowerRightQuadrant: {
-      title: 'Lower Right Quadrant',
-      caption: 'Align area in green rectangle.',
-    },
-    signatureCloseUp: {
-      title: 'Close-up of the signature',
-      caption: 'If the work is NOT signed press Not signed.',
-    },
-    darkestArea: {
-      title: 'Darkest Area',
-      caption: 'Stay in focus.',
-    },
-    lightestArea: {
-      title: 'Lightest Area',
-      caption: 'Stay in focus.',
-    },
-    media: {
-      title: 'Media',
-      caption:
-        'The way paint is applied to the surface tells us a lot about the artist and materials. Please take a close-up of the objects surface',
-    },
-    surface: {
-      title: 'Surface',
-      caption: 'Take a close-up of the surface where the texture is coming through.',
-    },
-    condition: {
-      title: 'Condition',
-      caption:
-        'Condition usually helps us get a sense of the objects age. Please capture any potential abrasions cracking, etc.',
-    },
-    additionalImages: {
-      title: 'Additional Images',
-      caption: 'Please take any additional photographs of the objects surface.',
-    },
-    backFullPicture: {
-      title: 'Full picture of paintings back',
-      caption: 'Capture the entire work including the frame.',
-    },
-    galleryStickers: {
-      title: 'Gallery Stickers',
-      caption: 'Press No Stickers if there arent any.',
-      isLast: true,
-    },
+    // mainImage2: {
+    //   title: 'Main Image (2)',
+    //   caption: 'Take 2 steps to the right. This may reduce glare. Capture the entire work including the frame.',
+    // },
+    // mainImage3: {
+    //   title: 'Main Image (3)',
+    //   caption: 'Take 4 steps to the left. This may reduce glare. Capture the entire work including the frame.',
+    // },
+    // upperLeftQuadrant: {
+    //   title: 'Upper Left Quadrant',
+    //   caption: 'Align area in green rectangle.',
+    // },
+    // upperRightQuadrant: {
+    //   title: 'Upper Right Quadrant',
+    //   caption: 'Align area in green rectangle.',
+    // },
+    // lowerLeftQuadrant: {
+    //   title: 'Lower Left Quadrant',
+    //   caption: 'Align area in green rectangle.',
+    // },
+    // lowerRightQuadrant: {
+    //   title: 'Lower Right Quadrant',
+    //   caption: 'Align area in green rectangle.',
+    // },
+    // signatureCloseUp: {
+    //   title: 'Close-up of the signature',
+    //   caption: 'If the work is NOT signed press Not signed.',
+    // },
+    // darkestArea: {
+    //   title: 'Darkest Area',
+    //   caption: 'Stay in focus.',
+    // },
+    // lightestArea: {
+    //   title: 'Lightest Area',
+    //   caption: 'Stay in focus.',
+    // },
+    // media: {
+    //   title: 'Media',
+    //   caption:
+    //     'The way paint is applied to the surface tells us a lot about the artist and materials. Please take a close-up of the objects surface',
+    // },
+    // surface: {
+    //   title: 'Surface',
+    //   caption: 'Take a close-up of the surface where the texture is coming through.',
+    // },
+    // condition: {
+    //   title: 'Condition',
+    //   caption:
+    //     'Condition usually helps us get a sense of the objects age. Please capture any potential abrasions cracking, etc.',
+    // },
+    // additionalImages: {
+    //   title: 'Additional Images',
+    //   caption: 'Please take any additional photographs of the objects surface.',
+    // },
+    // backFullPicture: {
+    //   title: 'Full picture of paintings back',
+    //   caption: 'Capture the entire work including the frame.',
+    // },
+    // galleryStickers: {
+    //   title: 'Gallery Stickers',
+    //   caption: 'Press No Stickers if there arent any.',
+    //   isLast: true,
+    // },
   };
 
   const navObj = (obj, currentKey, direction) => {
@@ -114,8 +118,9 @@ const CapturePics = ({ loadNextSection, formData }) => {
 
   const fileUpload = (imgSrc, type = 'live') => {
     const finalFile = type === 'upload' ? selectedFile : converBase64toFileObj(imgSrc);
+    
     if (!mainImage) {
-      mainImage = type === 'upload' ? URL.createObjectURL(selectedFile) : imgSrc;
+      mainImage = type === 'upload' ? selectedFile : imgSrc;
     }
     const payload = new FormData();
     payload.append('artId', artId);

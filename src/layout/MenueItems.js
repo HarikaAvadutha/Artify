@@ -32,38 +32,38 @@ const MenuItems = ({ darkMode, toggleCollapsed, topMenu, events }) => {
     <Menu
       onOpenChange={onOpenChange}
       onClick={onClick}
+      style={{ paddingTop: "20px" }}
       mode={!topMenu || window.innerWidth <= 991 ? 'inline' : 'horizontal'}
       theme={darkMode && 'dark'}
       // // eslint-disable-next-line no-nested-ternary
       defaultSelectedKeys={
         !topMenu
           ? [
-              `${
-                mainPathSplit.length === 1 ? 'home' : mainPathSplit.length === 2 ? mainPathSplit[1] : mainPathSplit[2]
-              }`,
-            ]
+            `${mainPathSplit.length === 1 ? 'home' : mainPathSplit.length === 2 ? mainPathSplit[1] : mainPathSplit[2]
+            }`,
+          ]
           : []
       }
       defaultOpenKeys={!topMenu ? [`${mainPathSplit.length > 2 ? mainPathSplit[1] : 'dashboard'}`] : []}
       overflowedIndicator={<FeatherIcon icon="more-vertical" />}
       openKeys={openKeys}
     >
-      <Menu.Item key="overview" title="Overview" icon={!topMenu && <FeatherIcon icon="home" />}>
-      <Link to={`${path}/overview`}>Overview</Link>
+      <Menu.Item key="overview" title="Overview" icon={!topMenu && <FeatherIcon icon="home" style={{ color: "#BAA06A" }} />}>
+        <Link to={`${path}/overview`}>Overview</Link>
       </Menu.Item>
-      <Menu.Item key="image" title="Image" icon={!topMenu && <FeatherIcon icon="camera" />}>
+      <Menu.Item key="image" title="Image" icon={!topMenu && <FeatherIcon icon="camera" style={{ color: "#BAA06A" }} />}>
         <Link to={`${path}/image`}>Image</Link>
       </Menu.Item>
-      <Menu.Item key="Identification" title="Identification" icon={!topMenu && <FeatherIcon icon="bar-chart-2" />}>
+      <Menu.Item key="Identification" title="Identification" icon={!topMenu && <FeatherIcon icon="bar-chart-2" style={{ color: "#BAA06A" }} />}>
         <Link to={`${path}/identifications`}>Identification</Link>
       </Menu.Item>
-      <Menu.Item key="comparables" title="Comparables" icon={!topMenu && <FeatherIcon icon="database" />}>
+      <Menu.Item key="comparables" title="Comparables" icon={!topMenu && <FeatherIcon icon="database" style={{ color: "#BAA06A" }} />}>
         <Link to={`${path}/comparables`}>Comparables</Link>
       </Menu.Item>
-      <Menu.Item key="catalogue_vluation" title="Catalogue / Valuation" icon={!topMenu && <FeatherIcon icon="book" />}>
+      <Menu.Item key="catalogue_vluation" title="Catalogue / Valuation" icon={!topMenu && <FeatherIcon icon="book" style={{ color: "#BAA06A" }} />}>
         <Link to={`${path}/catalogue`}>Catalogue / Valuation</Link>
       </Menu.Item>
-      <Menu.Item key="gallery_view" title="Gallery View" icon={!topMenu && <FeatherIcon icon="eye" />}>
+      <Menu.Item key="gallery_view" title="Gallery View" icon={!topMenu && <FeatherIcon icon="eye" style={{ color: "#BAA06A" }} />}>
         <Link to={`${path}/gallery`}>Gallery View</Link>
       </Menu.Item>
 

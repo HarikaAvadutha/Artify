@@ -15,7 +15,7 @@ const Ownership = ({ loadNextSection, formData }) => {
 
   const stages = {
     purchase: {
-      title: 'Yuor Purchase Price',
+      title: 'Your Purchase Price',
     },
     provenance: {
       title: 'Provenance & Documents',
@@ -47,7 +47,6 @@ const Ownership = ({ loadNextSection, formData }) => {
     // fileUpload(file, 'upload');
     // onFileSelect(e.target.files[0])
   }
-
 
   const handleNext = () => {
     let nextObj;
@@ -189,7 +188,7 @@ const Ownership = ({ loadNextSection, formData }) => {
     <div style={ownerShipContainer}>
       {currentStage === 'purchase' && Object.keys(stages[currentStage]).length && (
         <div>
-          <div style={{ textAlign: 'center' }}><img style={imageDiv} src={formData.takePictures} alt="mainImage" /></div>
+          {/* <div style={{ textAlign: 'center' }}><img style={imageDiv} src={formData.takePictures} alt="mainImage" /></div> */}
           <div style={fieldContainer}>
             <div style={header}>{stages[currentStage].title}:</div>
             <div>
@@ -204,10 +203,9 @@ const Ownership = ({ loadNextSection, formData }) => {
       )}
       {currentStage === 'provenance' && Object.keys(stages[currentStage]).length && (
         <>
-          <div style={{ textAlign: 'center' }}><img style={imageDiv} src={formData.takePictures} alt="mainImage" /></div>
           <div style={fieldContainer}>
             <div>
-              <div style={header}>{stages[currentStage].title}</div>
+              <div style={header}>{stages[currentStage].title}: Optional</div>
               <div>{stages[currentStage].caption}</div>
               <div>
                 <Button style={inputField} onClick={() => handleSelectedType('upload')}>Browse for File(s)...</Button>
@@ -249,14 +247,13 @@ const Ownership = ({ loadNextSection, formData }) => {
           </div>
           {!selectedType && (
             <button style={skipButton} onClick={handleNext}>
-              Skip
+              Next
             </button>)}
         </>
       )}
       {currentStage === 'paintingLocation' && Object.keys(stages[currentStage]).length && (
         <div style={fieldContainer}>
-          <div style={header}>{stages[currentStage].title}</div>
-          <p>Optional</p>
+          <div style={header}>{stages[currentStage].title}: Optional</div>
           <div style={{ margin: '10px 0' }}>
             <label style={{ fontSize: '22px', fontWeight: 700 }}>City:</label><br />
             <input style={inputCity} type="text" onChange={($event) => onLocationChange($event, 'city')} />
@@ -264,7 +261,7 @@ const Ownership = ({ loadNextSection, formData }) => {
             <input style={inputState} type="text" onChange={($event) => onLocationChange($event, 'state')} />
           </div>
           <button style={skipButton} onClick={handleNext}>
-            Skip
+            Next
           </button>
         </div>
       )}

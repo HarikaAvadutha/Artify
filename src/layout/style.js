@@ -13,7 +13,7 @@ const Div = Styled.div`
 
         .ant-btn-link{
             ${({ darkMode }) =>
-              darkMode ? `background: #272B41;border-color: #272B41;color: #7D808D !important` : ''};
+        darkMode ? `background: #272B41;border-color: #272B41;color: #7D808D !important` : ''};
         }
 
         .head-example{
@@ -223,7 +223,7 @@ const Div = Styled.div`
     }
     .certain-category-search-wrapper{
         ${({ darkMode, theme }) =>
-          darkMode ? `${!theme.rtl ? 'border-right' : 'border-left'}: 1px solid #272B41;` : ''};
+        darkMode ? `${!theme.rtl ? 'border-right' : 'border-left'}: 1px solid #272B41;` : ''};
          @media only screen and (max-width: 767px){
             padding: 0 15px;
         }
@@ -389,11 +389,11 @@ const Div = Styled.div`
                             }
                             &:before{
                                 transform: rotate(45deg) ${({ theme }) =>
-                                  !theme.rtl ? 'translateY(-3.3px)' : 'translateY(3.3px)'};
+        !theme.rtl ? 'translateY(-3.3px)' : 'translateY(3.3px)'};
                             }
                             &:after{
                                 transform: rotate(-45deg) ${({ theme }) =>
-                                  theme.rtl ? 'translateY(-3.3px)' : 'translateY(3.3px)'};
+        theme.rtl ? 'translateY(-3.3px)' : 'translateY(3.3px)'};
                             }
                         }
                     }
@@ -466,6 +466,7 @@ const Div = Styled.div`
                 .sidebar-nav-title{
                     margin-top: 40px;
                     margin-bottom: 24px;
+                    color:#BAA06A;
                 }
                 &.ant-menu-inline-collapsed{
                     .ant-menu-submenu{
@@ -490,8 +491,9 @@ const Div = Styled.div`
         .sidebar-nav-title{
             font-size: 12px;
             font-weight: 500;
+            color:#BAA06A;
             text-transform: uppercase;
-            ${({ darkMode }) => (darkMode ? `color: rgba(255, 255, 255, .38);` : 'color: #9299B8;')};
+            // ${({ darkMode }) => (darkMode ? `color: rgba(255, 255, 255, .38);` : 'color: #9299B8;')};
             padding: 0 ${({ theme }) => (theme.rtl ? '20px' : '15px')};
             display: flex;
         }
@@ -524,7 +526,7 @@ const Div = Styled.div`
 
     .atbd-main-layout{
         ${({ theme }) => (!theme.rtl ? 'margin-left' : 'margin-right')}: ${({ theme }) =>
-  theme.topMenu ? 0 : '0px'};
+        theme.topMenu ? 0 : '0px'};
         margin-top: 64px;
         transition: 0.3s ease;
         // @media only screen and (max-width: 1150px){

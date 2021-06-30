@@ -30,10 +30,9 @@ const UserUpload = lazy(() => import('../../container/users/UserUpload'));
 
 
 const Admin = () => {
-// debugger
+  // debugger
   const { path } = useRouteMatch();
   const d = useRouteMatch();
-console.log(path)
   return (
     <Switch>
       <Suspense
